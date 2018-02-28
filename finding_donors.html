@@ -12994,7 +12994,7 @@ The GBClassifier utilize weaker Decision Trees and combine them to predict bette
 <p>The final model chosen is GradientBoostingClassifier.</p>
 <p>Gradient Boosting uses multiple base models to improve prediction. In our case decision trees are base model and Gradient Boosting trains a series of base models sequentially. 
 Decision trees give prediction by asking a series of questions and based on that give us right answer. So, they are trained to ask <code>right questions</code> sequentially which can lead them to narrow down the domain, at each step, where they find answer.</p>
-<p><img src="attachment:main-qimg-46622fced55e8015564c103767a456e8.png" alt="main-qimg-46622fced55e8015564c103767a456e8.png">
+<p><img src="main-qimg-46622fced55e8015564c103767a456e8.png" alt="main-qimg-46622fced55e8015564c103767a456e8.png" title="A decision tree">
 [image source: <a href="https://www.cse.buffalo.edu//~jcorso/t/CSE555/files/lecture_trees.pdf">https://www.cse.buffalo.edu//~jcorso/t/CSE555/files/lecture_trees.pdf</a>]</p>
 <p>In the above image the color is the most appropriate question, as it helps reduce the domain the best.</p>
 <p>So we have team of decision trees and each of them predict differently for different types of data. Some of them predict well for a particular data and give error on other types. The focus of Gradient Boosting is to reduce the error of subsequent decision trees on those particular data types where error has been occuring. So the weight is given such that the next batch of trees predict the error regions accurately. The output for the new tree is then added to the output of the trained series of trees to improve the final output of the model.</p>
