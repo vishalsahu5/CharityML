@@ -12595,29 +12595,28 @@ It is a ratio of true positives(words classified as spam, and which are actually
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>After testing with a few linear models and seeing that the linear models perform reasonably well, it can be confirmed that this classification problem is very much linear.</p>
 <p>Logistic Regression:</p>
 
 <pre><code>1. Since Logistic Regression is a Binary Classifier, it can be used for binary classification tasks. Used in marketing application to identify whether or not a customer is likely to buy their product.[1]
 2. Logistic regression models are fast to train and do not overfit.
-3. It performs poorly for non linear problems
-4. The dataset is good for linear models, this assumption is made by testing few linear and non linear models on the dataset. The accuracy and Fscore were not significantly different for the linear model compared to non linear ones. Hence Logistic Regression can be a good fit.[5]
+3. It performs poorly for non linear problems.
+4. Logistic regression can train fast even for large datasets as it is a very simple model. It is a binary classification problem so Logistic Regression is suitable. We eventually want to train it for a dataset of 15 million people. So, it will give fast results (training as well as prediction).
 
 </code></pre>
 <p>Boosting (Adaboost/GradientBoosting):</p>
 
 <pre><code>1. Used in the ranking mechanism of search engines.[2]
 2. It performs well when the weak learners are performing better than just random guessing. It can be applied to both linear as well as non linear problems.
-3. They, particularly GB, are prone to overfitting when given too many learners.
-4. The individual weak learners perform better than naive predictor, therefore we can use boosting to boost the performance of the model.
+3. They, particularly GB, are prone to overfitting when given too many learners and we need to stop at the right point.
+4. We have a large enough dataset, so running the Boosting Classifiers can drastically improve performance. They are also fast. Also, the dataset is imbalanced. And boosting is known to cope well with imbalanced dataset.[5]
 
 </code></pre>
-<p>SVM(linear):</p>
+<p>SVM(linear kernel):</p>
 
 <pre><code>1. Support vector machines can be used to recognize hand written characters.[3]
-2. It is not biased by outliers.[3]
-3. It performs poorly when the no of features are large. The training time is very high.
-4. Although the no of features can be high in this problem, but the linear nature of the problem makes SVM suitable candidate.
+2. It is not biased by outliers.[4]
+3. It performs poorly when the no of features are large. The training time is very high. It also overfits if the data is noisy.
+4. Although the no of features can be high in this problem, but we can still use the linear SVM. It draws the boundaries better when there are correlation or complex relationships between features. Also, SVM requires a preprocessed data and we have preprocessed it.
 
 </code></pre>
 <p>References:</p>
@@ -12625,7 +12624,7 @@ It is a ratio of true positives(words classified as spam, and which are actually
 <p><strong>[2]: <a href="https://en.wikipedia.org/wiki/Gradient_boosting">https://en.wikipedia.org/wiki/Gradient_boosting</a></strong></p>
 <p><strong>[3]: MIT Artificial Intelligence Lecture Series. Lecture on SVM.</strong></p>
 <p><strong>[4]: <a href="https://en.wikipedia.org/wiki/Support_vector_machine">https://en.wikipedia.org/wiki/Support_vector_machine</a></strong></p>
-<p><strong>[5]:<a href="https://www.researchgate.net/post/How_can_one_decide_on_using_a_linear_or_non_linear_classifier_for_the_dataset">https://www.researchgate.net/post/How_can_one_decide_on_using_a_linear_or_non_linear_classifier_for_the_dataset</a></strong></p>
+<p><strong>[5]: <a href="https://stats.stackexchange.com/questions/199139/is-gradient-boosting-appropriate-for-data-with-low-event-rates-like-1">https://stats.stackexchange.com/questions/199139/is-gradient-boosting-appropriate-for-data-with-low-event-rates-like-1</a></strong></p>
 
 </div>
 </div>
@@ -12993,8 +12992,14 @@ The GBClassifier utilize weaker Decision Trees and combine them to predict bette
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
 <p>The final model chosen is GradientBoostingClassifier.</p>
-<p>Each decision tree is better at giving a different kind of prediction. That is, a particular tree predicts more accurately than others for particular Xs. The trees are assigned weights based on how accurately they predict on particular kind of sets. So, they all are combined and are used to given a best classifier which can then predict accurately.</p>
-<p>There is a loss function in a Gradient Boosting algorithm which we want to reduce in each iteration. This is done by assigning appropriate weights to the weak learners in subsequent iterations. The focus is particularly on hard to fit data where the error is occuring.</p>
+<p>Gradient Boosting uses multiple base models to improve prediction. In our case decision trees are base model and Gradient Boosting trains a series of base models sequentially. 
+Decision trees give prediction by asking a series of questions and based on that give us right answer. So, they are trained to ask <code>right questions</code> sequentially which can lead them to narrow down the domain, at each step, where they find answer.</p>
+<p><img src="attachment:main-qimg-46622fced55e8015564c103767a456e8.png" alt="main-qimg-46622fced55e8015564c103767a456e8.png">
+[image source: <a href="https://www.cse.buffalo.edu//~jcorso/t/CSE555/files/lecture_trees.pdf">https://www.cse.buffalo.edu//~jcorso/t/CSE555/files/lecture_trees.pdf</a>]</p>
+<p>In the above image the color is the most appropriate question, as it helps reduce the domain the best.</p>
+<p>So we have team of decision trees and each of them predict differently for different types of data. Some of them predict well for a particular data and give error on other types. The focus of Gradient Boosting is to reduce the error of subsequent decision trees on those particular data types where error has been occuring. So the weight is given such that the next batch of trees predict the error regions accurately. The output for the new tree is then added to the output of the trained series of trees to improve the final output of the model.</p>
+<p>The trees are assigned weights based on how accurately they predict on particular kind of sets. So, they all are combined and are used to given a best classifier which can then predict accurately.</p>
+<p>In our case, the decision trees will look at more important features first, which will help them narrow down to predicting the earning of the person.</p>
 
 </div>
 </div>
